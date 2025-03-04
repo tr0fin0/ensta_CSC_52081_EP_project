@@ -4,6 +4,7 @@
 \usepackage{url}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{subfiles}
 
 % Some useful/example abbreviations for writing math
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
@@ -28,88 +29,11 @@
 \end{abstract}
 
 % Each section begins with a \section{title} command
-\section{Introduction ($\approx$ 1 page)}
-\label{sec:intro}
-
-In this section, answer the following: 
-
-\begin{enumerate}
-	\item What aspect of RL are you specifically looking at? (Recall: something, or based on something you have studied in class). 
-	\item Why is this aspect interesting / relevant to RL?
-	\item What are the challenges involved?  
-	\item What is known/what has been done by others?
-	\item \label{item:approach} What is your approach? (What exactly did you do?), e.g., design a new environment, approach a real-world problem, study a particular agent, or a survey different agents, carry out a theoretical analysis, provide new empirical results \ldots) -- be precise and unambiguous. 
-	\item What are your main results? What do they imply? (What did you learn?)
-	\item What are the specific limitations (what could be done next if you had time). 
-	\item A link to your [anonymous] code/implementation, which can be used to reproduce your results. 
-\end{enumerate}
-
-This introduction is a complete view of your work, everything that follows is only a means to justify your claims/provide a detailed view of your findings. 
-		
-
-\section{Background ($\approx 1$ page)}
-\label{sec:background}
-
-Here, tell the reader everything they need to know to understand your work, in your own words. The main emphasis in this section: be pedagogical, target your reader as someone who has followed the course,  and needs to be reminded of relevant concepts to understand what you have done. 
-
-You must properly credit any source (textbook, article, course notes/slides) via a suitable reference,  e.g., \cite{RLBook}, Chapter 3, or \cite{Lecture4}, or even a blog post you found on the web \cite{Post3}. 
-
-Here is the place to introduce your notation, (e.g., state $s$, policy $\pi_\theta$ parametrized by $\theta$, trajectory $\boldsymbol\tau \sim p_\theta$ from policy $\pi_\theta$ under environment $p$), but make sure each part of your notation is stated somewhere. 
-
-\section{Methodology/Approach ($\approx 1$-$2$ pages)}
-
-As this report is about reinforcement learning, it should involve discussion of at least one environment, and at least one agent. Since you already introduced the general background and concepts you are using in Section~\ref{sec:background}, here you can get straight into the specific details of \emph{your} approach; basically, providing details on item~\ref{item:approach} in Section~\ref{sec:intro}. What did you implement, what experiments did you do (and why); including details of your approach to hyper-parameterization. 
-
-For example, if you propose a new environment, you would define the state space, action space, reward function, transition function; here.
-
-As elsewhere in the report, don't hesitate to use diagrams, figures, and screenshots wherever they can be useful. And precisely and ambiguously credit any work (code, theory, or otherwise) that you are using, building from, or comparing to; via an appropriate reference.  
-
-\section{Results and Discussion ($\approx 1$-2 pages)}
-
-Show the results (tables, plots, \ldots), and -- most importantly -- discuss and \emph{interpret} the results. Do not just narrate what you did and report results in the tables, but also \emph{discuss the implications of the results}. Method A beats method B; but: Why? How? In which contexts?
-
-Negative results are also results. Your agent performed poorly or not as expected? If you can explain why then this is indeed an important result. 
-
-Always discuss limitations, whether observed in your results or suspected in different scenarios. 
-
-Make use of plots, e.g., Fig.~\ref{results_figure}, tables, etc.; anything that illustrates the performance of your agent in the environment under different configurations. Make sure to clearly indicate the parametrization behind each result (e.g., $\gamma$, or whatever is relevant to your experiments). 
-
-% \begin{figure}[!ht]
-% 	\centering
-% 	\includegraphics[width=0.7\columnwidth]{fig/results.pdf}
-% 	\caption{\label{results_figure}Your plots should be as self-explanatory (from the legend, axis labels, and the caption) as possible.}
-% \end{figure}
-
-%\begin{table}[!ht]
-%	\caption{\label{results_table}Table captions should adequately describe the contents of tables (unlike this one).}
-%	\centering
-%	\begin{tabular}{lll}
-%		\hline
-%		\textbf{Environment config.} & \textbf{SARSA} & \textbf{Q-Learning}  \\
-%		\hline
-%		Simulation 1        & 10             & 15 \\
-%		Simulation 2        & 12             & 11 \\
-%		\hline
-%	\end{tabular}
-%\end{table}
-
-\section{Conclusions}
-	Summarize the project briefly (one paragraph will do). Main outcome, lessons learned, suggestions of hypothetical future work. 
-	Reflect upon, but don't needlessly repeat, material from the conclusion. 
-
-% The bibliography (you can use a separate .bib file if you prefer):
-\begin{thebibliography}{4}
-
-	\bibitem{RLBook} 
-	Sutton and Barto. Reinforcement Learning,
-	{\em MIT Press}, 2020.
-
-	\bibitem{Lecture4} 
-		Read. Lecture IV - Reinforcement Learning I. In \textit{INF581 Advanced Machine Learning and Autonomous Agents}, 2024.
-
-	\bibitem{Post3} 
-		Author name. \textit{Some Blog Post}, \url{http://the.relevant.url}, accessed 05 March 2024.
-\end{thebibliography}
+\subfile{sections/CSC_52081_EP_I.tex}
+\subfile{sections/CSC_52081_EP_II.tex}
+\subfile{sections/CSC_52081_EP_III.tex}
+\subfile{sections/CSC_52081_EP_IV.tex}
+\subfile{sections/CSC_52081_EP_V.tex}
 
 \newpage
 \section*{Appendix}
