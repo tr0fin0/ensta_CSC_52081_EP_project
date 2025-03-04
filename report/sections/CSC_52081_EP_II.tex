@@ -1,13 +1,87 @@
 \documentclass[../CSC_52081_EP.tex]{subfiles}
 
 \begin{document}
-    \section{Background ($\approx 1$ page)}
+    \section{Background}
     \label{sec:background}
 
-    Here, tell the reader everything they need to know to understand your work, in your own words. The main emphasis in this section: be pedagogical, target your reader as someone who has followed the course,  and needs to be reminded of relevant concepts to understand what you have done. 
+    % Here, tell the reader everything they need to know to understand your work, in your own words. The main emphasis in this section: be pedagogical, target your reader as someone who has followed the course,  and needs to be reminded of relevant concepts to understand what you have done. 
 
-    You must properly credit any source (textbook, article, course notes/slides) via a suitable reference,  e.g., \cite{RLBook}, Chapter 3, or \cite{Lecture4}, or even a blog post you found on the web \cite{Post3}. 
+    % You must properly credit any source (textbook, article, course notes/slides) via a suitable reference,  e.g., \cite{RLBook}, Chapter 3, or \cite{Lecture4}, or even a blog post you found on the web \cite{Post3}. 
 
-    Here is the place to introduce your notation, (e.g., state $s$, policy $\pi_\theta$ parametrized by $\theta$, trajectory $\boldsymbol\tau \sim p_\theta$ from policy $\pi_\theta$ under environment $p$), but make sure each part of your notation is stated somewhere. 
+    % Here is the place to introduce your notation, (e.g., state $s$, policy $\pi_\theta$ parametrized by $\theta$, trajectory $\boldsymbol\tau \sim p_\theta$ from policy $\pi_\theta$ under environment $p$), but make sure each part of your notation is stated somewhere. 
+
+    \subsection{Discrete Action Space}
+
+    DEEP Q-Network (DQN) and SARSA are powerful reiforcement learning algorithms to solve discrete action control problems, suitable to our first approach to the Car Racing environment.
+    Both approaches are based on the Q-learning algorithm, which is a model-free reinforcement learning algorithm that aims to learn the optimal action-value function $Q(s, a)$, where $s$ is the state and $a$ is the action.
+    However, DQN uses a deep neural network to approximate the Q-function, while SARSA uses a table to store the Q-values \cite{Popular_RL}. To account for the limitations of the SARSA approach in limited high-dimentional state spaces (as the Car Racing environment with an observation space of 96x96x3), we will explore a modern approach called Deep SARSA. \cite{Deep_SARSA}
+
+    Deep SARSA combines the on-policy nature of traditional SARSA with neural network architectures to handle large state spaces effectively. Unlike DQN's off-policy approach, Deep SARSA maintains SARSA's fundamental characteristics while scaling to complex environments.
+
+    On-policy learning methods, such as SARSA, updates the Q-values using actions selected by the current policy. The usual update rule follows the equation:
+    \begin{equation}
+        Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma Q(s', \pi(s')) - Q(s, a) \right]
+    \end{equation}
+
+    where $\alpha$ is the learning rate, $r$ is the reward, $\gamma$ is the discount factor, and $\pi(s')$ is the action selected by the policy at the next state $s'$ (usually the $\epsilon$-greedy policy).
+    The $\epsilon$-greedy policy selects a random action (explore) with probability $\epsilon$ and the best action (exploit) with probability 1-$\epsilon$.
+    
+    On the other hand, off-policy learning methods, such as DQN, updates the Q-values using actions selected by a different policy. The update rule is given by:
+    \begin{equation}
+        Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]
+    \end{equation}
+    
+    where $\max_{a'} Q(s', a')$ is the maximum Q-value at the next state $s'$ (greedy selection).
+
+    On-policy methods tend to be more stable, but they can be less sample-efficient and must actively explore during training.In contrast, off-policy methods can learn from past experiences, which can lead to better exploration and exploitation of the environment, but may require careful tuning to ensure stability.
+
+    \subsection{Continuous Action Space}
+
+    For the second approach to the Car Racing environment, we will explore algorithms that can handle continuous action spaces.
+    Starting from an evolutionary approach, we will test the performance of the Cross-Entropy Method (CEM) and the (1+1) Successive Adaptation Evolution Strategy (SA-ES) in the Car Racing environment.
+    Both algorithms are based on the idea of optimizing a distribution of policies to maximize the expected return in the environment.
+
+    The Cross-Entropy Method is a simple optimization algorithm that iteratively samples policies from a Gaussian distribution and updates the distribution parameters to maximize the expected return.
+    It generates multiple candidate solutions (policies), ranks them based on performance, and updates the policy distribution using the best-performing candidates. It is efficient in high-dimentional spaces and can discover complex plocies through population diversity. It follows the steps:
+    \begin{enumerate}
+        \item Sample $N$ policies from a Gaussian distribution.
+        \item Evaluate the policies in the environment.
+        \item Select the top $M$ policies.
+        \item Update the distribution parameters to fit the selected policies.
+        \item Repeat until convergence.
+    \end{enumerate}
+
+    The (1+1) Successive Adaptation Evolution Strategy is a variant of the Evolution Strategy algorithm that uses a single parent policy to generate a single child policy at each iteration.
+    It is a simple and efficient optimization algorithm that can handle continuous action spaces effectively. It uses a Gaussian mutation operator to perturb the parent policy and keeps the new version if it performs better in the environment.
+    The amount of change (mutation size) is adjusted dynamically to balance exploration and exploitation, making it suitable for continuous updates, and more sample-efficient than other evolutionary algorithms. It follows the steps:
+    \begin{enumerate}
+        \item Sample a policy from a Gaussian distribution.
+        \item Evaluate the policy in the environment.
+        \item Update the parent policy if the child policy performs better.
+        \item Adjust the mutation size based on the performance.
+        \item Repeat until convergence.
+    \end{enumerate}
+    
+
+    Secondly, we will explore and compare two policy-based methods designed for continuous control: Proximal Policy Optimization (PPO) \cite{PPO} and Soft Actor-Critic (SAC) \cite{SAC} in the Car Racing environment.
+    PPO is an on-policy gradient method, meaning it directly updates the policy (instead of learning a value function like Q-learning). It uses an actor-critic architecture to learn a parameterized policy that maximizes the expected return. It follows the steps:
+    \begin{enumerate}
+        \item Collect trajectories using the current policy.
+        \item Compute the advantage function using the critic network.
+        \item Update the policy using the advantage function and the policy gradient.
+        \item Repeat until convergence.
+    \end{enumerate}
+
+    SAC is an off-policy (meaning it reuses past experiences for learning) actor-critic method that uses the maximum entropy framework to encourage exploration and improve sample efficiency. It learns a stochastic policy that maximizes the expected return while maximizing the entropy of the policy (avoiding premature convergence to suboptimal policies). It follows the steps:
+    \begin{enumerate}
+        \item Collect trajectories using the current policy.
+        \item Compute the advantage function using the critic network.
+        \item Update the policy using the advantage function and the policy gradient.
+        \item Update the critic network using the temporal difference error.
+        \item Repeat until convergence.
+    \end{enumerate}
+
+    \subsection{Objective}
+    In this study, we will compare the performance of Deep SARSA and DQN in the Car Racing environment to understand the trade-offs between on-policy and off-policy learning methods in the context of discrete action space. Conversely, we also aim to compare the performance of CEM, SA-ES, PPO, and SAC to understand the trade-offs between evolutionary algorithms and policy-based methods in continuous action spaces.
 
 \end{document}
