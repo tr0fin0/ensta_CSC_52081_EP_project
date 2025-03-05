@@ -1,0 +1,45 @@
+\documentclass[../CSC_52081_EP.tex]{subfiles}
+
+\begin{document}
+\section{Methodology / Approach}
+
+
+\subsection{Environment and Agent Implementation}
+This study employs the CarRacing-v3 environment from Gymnasium \cite{gymnasium}, a challenging benchmark characterized by high-dimensional visual observations and multiple action modalities. By leveraging this established environment, we reduce the overhead of environment setup and focus on evaluating different RL methodologies for high-dimensional continuous control tasks.
+
+\subsection{Customization and Evaluation Metrics}
+To ensure robustness and generalization, our experimental methodology rigorously analyses multiple aspects of the learning process.
+
+\subsubsection{Visual Variability Effects}
+We assess the stability of the color scheme by evaluating performance under both static and dynamically varying color representations, which simulate changes in lighting and environmental conditions.
+
+\subsubsection{Action-Space Design}
+We compare the efficiency of discrete versus continuous action spaces by analyzing convergence rates, stability, and final policy performance across different action representations.
+
+\subsubsection{Hyperparameter Sensitivity Analysis}
+We investigate the stability and convergence dynamics under different step-size configurations by adapting the learning rate.
+
+\subsubsection{Performance Metrics}
+Our evaluation framework incorporates several key indicators to comprehensively assess the performance of the implemented methodologies. Firstly, cumulative rewards are used to quantify the overall policy efficiency and long-term reward accumulation. Secondly, convergence speed is measured by the number of training episodes required to reach a stable performance threshold. Thirdly, sample efficiency is evaluated by assessing the learning progress per unit of environmental interaction, which helps determine the algorithmic effectiveness. Lastly, robustness evaluation is conducted through perturbation tests under varying environmental conditions to gauge the model's adaptability and resilience.
+
+
+\subsection{Visual Analysis and Interpretation}
+To further refine our understanding of agent behavior and policy effectiveness, we employ several visualization techniques:
+
+\subsubsection{Learning Curves}
+We analyze episodic reward trends over the course of training to identify key inflection points and phases in the learning process. This involves plotting the cumulative rewards obtained in each episode, which helps in diagnosing the learning stability, convergence behavior, and potential over-fitting or under-fitting issues. By examining these curves, we can infer the efficiency of the learning algorithm and the impact of different hyperparameter settings.
+
+\subsubsection{Action Heatmaps}
+Action heatmaps are utilized to map the distribution of actions selected by the agent across different states or observations. This visualization technique helps uncover spatial biases and decision-making tendencies of the agent. By analyzing these heatmaps, we can gain insights into the policy's behavior, such as preferred actions in specific regions of the state space, and detect any anomalies or suboptimal action patterns that may arise during training.
+
+\subsubsection{Final Policy Comparisons}
+We conduct a comparative analysis of the final policies learned under different training configurations. This involves contrasting the strategies and behaviors exhibited by the agent after the training process is complete. By systematically comparing these policies, we can infer the impact of various algorithmic choices, such as different exploration strategies, reward structures, or network architectures, on the overall performance and robustness of the learned policies. This comparative analysis provides a deeper understanding of the strengths and limitations of each approach, guiding future improvements and refinements.
+
+
+\subsection{Reproducibility}
+All implementations utilie OpenAI Gymnasium, PyTorch/TensorFlow for training, and Stable-Baselines3 for baseline comparisons. The full codebase is available at \href{https://github.com/tr0fin0/ensta_CSC_52081_EP_project}{GitHub} to facilitate reproducibility.
+
+
+\subsection{Future Work}
+Additionally, we intend to refine our CNN-based feature extractor by integrating advanced architectures such as attention mechanisms or self-supervised learning, which are expected to improve generalization across unseen track configurations. By structuring this study with a comprehensive methodological approach, we aim to contribute meaningful insights into reinforcement learning strategies for complex continuous control tasks.
+\end{document}

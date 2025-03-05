@@ -1,0 +1,40 @@
+\documentclass[journal, a4paper]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{subfiles}
+\usepackage{hyperref}
+
+% Some useful/example abbreviations for writing math
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\ypred}{\mathbf{\hat y}}
+\newcommand{\yp}{{\hat y}}
+
+\begin{document}
+
+% Define document title, do NOT write author names for the initial submission
+\title{CSC\_52081\_EP, Reinforcement Learning Project}
+\author{Anonymous Authors}
+\maketitle
+
+% Write abstract here
+\begin{abstract}
+    Reinforcement Learning (RL) trains autonomous agents to interact with complex environments. This study examines the CarRacing-v3 environment from Gymnasium, featuring high-dimensional observations and both discrete and continuous actions. We compare RL algorithms: DQN, SARSA, CEM, SAES, PPO, and SAC. Our experiments evaluate the effects of visual variability, action-space design, and hyperparameter tuning on performance. A baseline is established with a default agent. This work analyzes algorithmic trade-offs, offering insights into RL strategies for continuous control in visually complex settings.
+\end{abstract}
+
+% Each section begins with a \section{title} command
+\subfile{sections/CSC_52081_EP_I.tex}
+\subfile{sections/CSC_52081_EP_II.tex}
+\subfile{sections/CSC_52081_EP_III.tex}
+\subfile{sections/CSC_52081_EP_IV.tex}
+\subfile{sections/CSC_52081_EP_V.tex}
+
+\newpage
+\section*{Appendix}
+% This is the place to put work that you did but is not essential to understand the main outcome of your work. For example, additional results and tables, lengthy proofs or derivations. Material here does not count towards page limit (but also it will be optional for the reviewer/teacher to work through). 
+\end{document}
