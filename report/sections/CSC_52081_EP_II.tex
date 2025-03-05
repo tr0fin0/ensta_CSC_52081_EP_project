@@ -12,9 +12,9 @@
 
     \subsection{Discrete Action Space}
 
-    DEEP Q-Network (DQN) and SARSA are powerful reiforcement learning algorithms to solve discrete action control problems, suitable to our first approach to the Car Racing environment.
+    DEEP Q-Network (DQN) and SARSA are powerful reinforcement learning algorithms to solve discrete action control problems, suitable to our first approach to the Car Racing environment.
     Both approaches are based on the Q-learning algorithm, which is a model-free reinforcement learning algorithm that aims to learn the optimal action-value function $Q(s, a)$, where $s$ is the state and $a$ is the action.
-    However, DQN uses a deep neural network to approximate the Q-function, while SARSA uses a table to store the Q-values \cite{Popular_RL}. To account for the limitations of the SARSA approach in limited high-dimentional state spaces (as the Car Racing environment with an observation space of 96x96x3), we will explore a modern approach called Deep SARSA. \cite{Deep_SARSA}
+    However, DQN uses a deep neural network to approximate the Q-function, while SARSA uses a table to store the Q-values \cite{Popular_RL}. To account for the limitations of the SARSA approach in limited high-dimensional state spaces (as the Car Racing environment with an observation space of 96x96x3), we will explore a modern approach called Deep SARSA. \cite{Deep_SARSA}
 
     Deep SARSA combines the on-policy nature of traditional SARSA with neural network architectures to handle large state spaces effectively. Unlike DQN's off-policy approach, Deep SARSA maintains SARSA's fundamental characteristics while scaling to complex environments.
 
@@ -33,7 +33,7 @@
     
     where $\max_{a'} Q(s', a')$ is the maximum Q-value at the next state $s'$ (greedy selection).
 
-    On-policy methods tend to be more stable, but they can be less sample-efficient and must actively explore during training.In contrast, off-policy methods can learn from past experiences, which can lead to better exploration and exploitation of the environment, but may require careful tuning to ensure stability.
+    On-policy methods tend to be more stable, but they can be less sample-efficient and must actively explore during training. In contrast, off-policy methods can learn from past experiences, which can lead to better exploration and exploitation of the environment, but may require careful tuning to ensure stability.
 
     \subsection{Continuous Action Space}
 
@@ -42,7 +42,7 @@
     Both algorithms are based on the idea of optimizing a distribution of policies to maximize the expected return in the environment.
 
     The Cross-Entropy Method is a simple optimization algorithm that iteratively samples policies from a Gaussian distribution and updates the distribution parameters to maximize the expected return.
-    It generates multiple candidate solutions (policies), ranks them based on performance, and updates the policy distribution using the best-performing candidates. It is efficient in high-dimentional spaces and can discover complex plocies through population diversity. It follows the steps:
+    It generates multiple candidate solutions (policies), ranks them based on performance, and updates the policy distribution using the best-performing candidates. It is efficient in high-dimensional spaces and can discover complex polices through population diversity. It follows the steps:
     \begin{enumerate}
         \item Sample $N$ policies from a Gaussian distribution.
         \item Evaluate the policies in the environment.
