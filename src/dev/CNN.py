@@ -1,21 +1,20 @@
 import torch
 import torch.nn as nn
 
-class CNN(nn.Module):
+class CNN_PPO(nn.Module):
     """
-    A Convolutional Neural Network (CNN) for feature extraction from high-dimensional input.
-
-    Attributes:
-        net (nn.Sequential): The sequential model defining the CNN architecture.
-
-    Methods:
-        __init__(input_dimensions, output_dimensions):
-            Initializes the CNN with the given input and output dimensions.
-        forward(input):
-            Defines the forward pass of the network.
+    A Convolutional Neural Network (CNN) for both policy and value estimation.
     """
-    def __init__(self, input_dimensions, output_dimensions):
+
+    def __init__(self, input_dimensions, output_dim=None, mode="policy"):
+        """
+        Args:
+            input_dimensions (tuple): Shape of the observation space (C, H, W).
+            output_dim (int): Action space dimension (only used in policy mode).
+            mode (str): "policy" for action selection, "value" for value estimation.
+        """
         super().__init__()
+        self.mode = mode
         channel_n, height, width = input_dimensions
 
         if height != 84 or width != 84:
@@ -29,8 +28,31 @@ class CNN(nn.Module):
             nn.Flatten(),
             nn.Linear(2592, 256),
             nn.ReLU(),
-            nn.Linear(256, output_dimensions),
         )
 
+        # Output layers for policy network
+        if mode == "policy":
+            self.mu_layer = nn.Linear(256, 1)  # Continuous steering action (-1 to 1)
+            self.log_std_layer = nn.Linear(256, 1)  # Log standard deviation for steering
+            self.discrete_layer = nn.Linear(256, 2)  # Binary actions (gas and brake)
+
+        # Output layer for value function
+        elif mode == "value":
+            self.value_layer = nn.Linear(256, 1)  # Single scalar value output
+
     def forward(self, input):
-        return self.net(input)
+        features = self.net(input)
+
+        if self.mode == "policy":
+            # Continuous steering action
+            mu = torch.tanh(self.mu_layer(features))  # Output between -1 and 1
+            log_std = torch.clamp(self.log_std_layer(features), min=-20, max=2)  # Log std for stability
+            std = torch.exp(log_std)  # Convert log_std to std
+
+            # Discrete actions (gas and brake as probabilities)
+            logits = self.discrete_layer(features)  # Raw logits for binary actions
+
+            return mu, std, logits  # Return mean, std, and logits
+
+        elif self.mode == "value":
+            return self.value_layer(features)  # Return scalar value estimate
