@@ -1,3 +1,7 @@
+from SkipFrame import SkipFrame
+
+import gymnasium as gym
+import gymnasium.wrappers as gym_wrap
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,6 +10,50 @@ import torch
 is_ipython = 'inline' in matplotlib.get_backend()
 if is_ipython:
     from IPython import display
+
+
+def agent_evaluation_discrete(agent, env_discrete: gym, seeds: list[int]) -> tuple[list, list]:
+    agent.epsilon = 0
+
+    scores = []
+    actions = []
+
+    for episode, seed_id in enumerate(seeds):
+        state, info = env_discrete.reset(seed=seed_id)
+        score = 0
+        action = 0
+
+        updating = True
+        while updating:
+            action = agent.get_action(state)
+            state, reward, terminated, truncated, info = env_discrete.step(action)
+
+            updating = not (terminated or truncated)
+            score += reward
+            action += 1
+
+        scores.append(score)
+        actions.append(action)
+
+        print(f"Episode:{episode}, Score:{score:.2f}, actions: {action}")
+
+    env_discrete.close()
+
+    return scores, actions
+
+
+def get_environment_discrete():
+    env_discrete = gym.make(
+        "CarRacing-v3",
+        render_mode="rgb_array",
+        continuous=False
+    )
+    env_discrete = SkipFrame(env_discrete, skip=4)
+    env_discrete = gym_wrap.GrayscaleObservation(env_discrete)
+    env_discrete = gym_wrap.ResizeObservation(env_discrete, shape=(84, 84))
+    env_discrete = gym_wrap.FrameStackObservation(env_discrete, stack_size=4)
+
+    return env_discrete
 
 
 def plot_reward(episode_num, reward_list, actions) -> None:
