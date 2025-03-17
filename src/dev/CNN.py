@@ -30,7 +30,8 @@ class PolicyNetwork(nn.Module):
         std = torch.exp(self.log_std)  # Convert log_std to std (ensures positivity)
 
         mu[:, 0] = torch.tanh(mu[:, 0])  # Steering: [-1, 1]
-        mu[:, 1:] = torch.sigmoid(mu[:, 1:])  # Throttle and brake: [0, 1]
+        mu[:, 1:] = torch.sigmoid(mu[:, 1:])  # Gas and brake: [0, 1]
+        std = torch.sigmoid(std)
         
         return mu, std
 
