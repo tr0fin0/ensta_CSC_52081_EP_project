@@ -142,38 +142,38 @@ This process iterates until convergence, refining the distribution towards regio
 As mentioned for PPO, two NNs are also used in this algorithm. The first one processes the high-dimensional visual observations produced by the CarRacing environment. It takes as input the preprocessed frames (in this case, four stacked grayscale images of size \(84 \times 84\)) and extracts spatial features by applying a series of convolutional filters and nonlinear activations. The second one is a policy that the agent can use to interact with the environment, handling the necessary preprocessing of the input observation. Moreover, this policy provides utility methods to extract all network parameters into a single flattened vector and to update the network parameters from such a vector.
 
 \hspace{1cm}
-\subsubsection{SAC}
+\subsubsection{Soft Actor-Critic (SAC)}
+Same as in the PPO algorithm, the SAC algorithm involves two main components: the policy network (actor) and the value networks (critics). The policy network outputs a probability distribution over actions, while the value networks estimate the expected return.
 
+The key elements of SAC are as follows:
 
+\begin{itemize}
+    \item The soft Q-function \( Q(s, a) \) is learned to estimate the expected return of taking action \( a \) in state \( s \) and following the policy thereafter. The soft Q-value incorporates the entropy term to encourage exploration:
+    \[
+    Q(s, a) = r(s, a) + \gamma \mathbb{E}_{s' \sim p} \left[ V(s') \right]
+    \]
+    where \( V(s') \) is the soft state value function.
 
-\subsection{Comparison and Evaluation Methods}
+    \item The soft state value function \( V(s) \) is defined as the expected return of state \( s \) under the current policy, including the entropy term:
+    \[
+    V(s) = \mathbb{E}_{a \sim \pi} \left[ Q(s, a) - \alpha \log \pi(a|s) \right]
+    \]
+    where \( \alpha \) is the temperature parameter that controls the trade-off between reward and entropy.
 
-\subsubsection{Action-Space Design}
-We compare the efficiency of discrete versus continuous action spaces by analyzing convergence rates, stability, and final policy performance across different action representations.
+    \item The policy is updated to maximize the expected return and entropy. The policy update aims to minimize the Kullback-Leibler (KL) divergence between the policy and the exponential of the soft Q-function:
+    \[
+    \pi_{\text{new}} = \arg \min_{\pi} \mathbb{E}_{s \sim \mathcal{D}} \left[ \text{KL} \left( \pi(\cdot|s) \| \frac{\exp(Q(s, \cdot))}{Z(s)} \right) \right]
+    \]
+    where \( Z(s) \) is the partition function.
 
-\subsubsection{Hyperparameter Sensitivity Analysis}
-We investigate the stability and convergence dynamics under different step-size configurations by adapting the learning rate.
+    \item The temperature parameter \( \alpha \) is adjusted to maintain a target entropy, ensuring a balance between exploration and exploitation:
+    \[
+    \alpha \leftarrow \alpha - \beta \left( \log \pi(a|s) + \mathcal{H} \right)
+    \]
+    where \( \beta \) is the learning rate for the temperature and \( \mathcal{H} \) is the target entropy.
+\end{itemize}
 
-\subsubsection{Performance Metrics}
-Our evaluation framework incorporates several key indicators to comprehensively assess the performance of the implemented methodologies. Firstly, cumulative rewards are used to quantify the overall policy efficiency and long-term reward accumulation. Secondly, convergence speed is measured by the number of training episodes required to reach a stable performance threshold. Thirdly, sample efficiency is evaluated by assessing the learning progress per unit of environmental interaction, which helps determine the algorithmic effectiveness. Lastly, robustness evaluation is conducted through perturbation tests under varying environmental conditions to gauge the model's adaptability and resilience.
-
-
-\subsection{Visual Analysis and Interpretation}
-To further refine our understanding of agent behavior and policy effectiveness, we employ several visualization techniques:
-
-\subsubsection{Learning Curves}
-We analyze episodic reward trends over the course of training to identify key inflection points and phases in the learning process. This involves plotting the cumulative rewards obtained in each episode, which helps in diagnosing the learning stability, convergence behavior, and potential over-fitting or under-fitting issues. By examining these curves, we can infer the efficiency of the learning algorithm and the impact of different hyperparameter settings.
-
-
-\subsubsection{Final Policy Comparisons}
-We conduct a comparative analysis of the final policies learned under different training configurations. This involves contrasting the strategies and behaviors exhibited by the agent after the training process is complete. In order to compare algorithm performance under the same conditions of an environment (which is randomly generated), we fixed a seed variable upon its generation to maintain the main caracteristics.
-
-By systematically comparing these policies, we can infer the impact of various algorithmic choices, such as different exploration strategies, reward structures, or network architectures, on the overall performance and robustness of the learned policies. This comparative analysis provides a deeper understanding of the strengths and limitations of each approach, guiding future improvements and refinements.
-
-
-\subsection{Reproducibility}
-All implementations utilie OpenAI Gymnasium, PyTorch/TensorFlow for training, and Stable-Baselines3 for baseline comparisons. The full codebase is available at \href{https://github.com/tr0fin0/ensta_CSC_52081_EP_project}{GitHub} to facilitate reproducibility.
-
+The SAC algorithm's emphasis on exploration through entropy maximization helps the agent discover effective driving strategies in the complex and high-dimensional CarRacing environment.
 
 
 \end{document}

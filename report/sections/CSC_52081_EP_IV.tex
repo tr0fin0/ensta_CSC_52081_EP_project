@@ -28,7 +28,8 @@ For the SARSA model, 1000 episodes were simulated. The agent starts with low rew
 
 Overall, this proved to be a good training and the final performance is strong, indicating that the policy has reached a near-optimal state, while also fast and sample-efficient, followed by stable convergence.
 
-In order to compare their performance under the same conditions (same environment), we performed five simulations for over 25 seeds. The graph for comparison can be seen in Figure \ref{fig:SARSA_DQN_comparison}.
+In order to compare algorithm performance under the same conditions of an environment (which is randomly generated), we fixed a seed variable upon its generation to maintain the main caracteristics.
+We performed five simulations for over 25 seeds. The graph for comparison can be seen in Figure \ref{fig:SARSA_DQN_comparison}.
 
 % \begin{figure}[H]
 %     \centering
@@ -74,7 +75,7 @@ We then evaluated both performances of PPO and SAC under the same conditions (sa
 %     \label{fig:PPO_SAC_comparison}
 % \end{figure}
 
-Many of the reasons that coul explain the poor performance of the algorithms are that continuous action spaces introduce infinitely many possible actions, making exploration harder compared to discrete spaces. If the policy does not explore effectively, it may fail to find optimal actions.
+Many of the reasons that could explain the poor performance of the algorithms are that continuous action spaces introduce infinitely many possible actions, making exploration harder compared to discrete spaces. If the policy does not explore effectively, it may fail to find optimal actions.
 PPO and SAC are highly sensitive to hyperparameters like learning rate, entropy regularization (SAC), and clipping ratio (PPO). Inappropriate values can lead to either premature convergence to suboptimal policies or unstable training.
 Additionally, the neural networks may struggle to approximate the optimal policy in complex continuous spaces, especially if architecture, activation functions, or regularization are not well chose, and there are many possibilities.
 
