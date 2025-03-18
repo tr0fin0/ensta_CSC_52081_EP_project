@@ -69,7 +69,7 @@ Training is conducted on minibatches of state-action-reward-next state-next acti
         Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma Q(s', \pi(s')) - Q(s, a) \right]
     \end{equation}
 
-where $Q(s', \pi(s'))$ corresponds to the Q-value of the next state-action pair, following the agent’s current policy ($\epsilon$-greedy). This approach ensures that the learning process accounts for the agent’s actual behavior, rather than assuming a greedy action selection at every step.
+where $Q(s', \pi(s'))$ corresponds to the Q-value of the next state-action pair, following the agent’s current policy ($\epsilon$-greedy). This approach ensures that the learning process accounts for the agent’s actual behavior, rather than assuming a greedy action selection at every step. $\epsilon$ is then decayed for better balance between prioritizing exploration at the beggining, and more exploitation after.
 
 \hspace{1cm}
 
@@ -81,78 +81,41 @@ The training for the PPO is described as follows:
     \[
     \mathcal{D} = \{ (s_t, a_t, r_t, s_{t+1}) \}_{t=0}^{T}
     \]
-    where:
-    \( s_t \) is the state at time \( t \), \( a_t \) is the action taken, \( r_t \) is the reward received, and \( s_{t+1} \) is the next state.
 
-    \item Compute Advantage Estimates Using GAE. The temporal difference (TD) residual is given by:
+    And the experience tuple is stores in the replay buffer, until termination.
+
+    \item Once the buffer has at least \verb|batch_size| samples, PPO updates are performed over multiple epochs, and the current replay buffer is cleared.
+
+    \item The update occurs sampling a batch of transitions from the buffer, and the target values are computed using the Bellman equation:
+
+    \begin{equation}
+        V_{target} = r + \gamma V(s)
+    \end{equation}
+
+    And the value loss is then calculated using Mean Squared Error (MSE).
+    
+    \item The advantage function is computed using Generalized Advantage Estimation (GAE):
     \[
     \delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)
     \]
     
-    The Generalized Advantage Estimation (GAE) is computed recursively:
-    
-    \[
-    A_t^{GAE} = \delta_t + (\gamma \lambda) A_{t+1}^{GAE}
-    \]
-    
-    where \( \gamma \) is the discount factor and \( \lambda \) is the GAE smoothing parameter.
+    And the advantages are normalized for stable training
 
-    The estimated return is:
-
-    \[
-    \hat{R}_t = A_t^{GAE} + V(s_t)
-    \]
-
-    \item Compute the Probability Ratio:
+    \item Policy update computes the probability ratio between the new and old policies (using PPO clipped surrogate objective after):
 
     \[
     r_t(\theta) = \frac{\pi_{\theta}(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}
     \]
-    
-    where \( \pi_{\theta} \) is the current policy, and \( \pi_{\theta_{\text{old}}} \) is the old policy before the update.
 
-    \item Clipped Surrogate Objective, to prevent large policy updates:
+    To encourage exploration, an entropy bonus is added. The policy loss is backpropagated, and the optimizer updates the policy network.
 
-    \[
-    L^{\text{CLIP}}(\theta) = \mathbb{E} \left[ \min \left( r_t(\theta) A_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) A_t \right) \right]
-    \]
-    
-    where \( \epsilon \) is a small clipping parameter (\( 0.2 \) in our code).
-
-    \item Compute Value Function Loss:
-
-    \[
-    L^{\text{VF}}(\theta) = \mathbb{E} \left[ (V_{\theta}(s_t) - \hat{R}_t)^2 \right]
-    \]
-
-    \item To encourage exploration, an entropy bonus is added:
-
-    \[
-    L^{\text{ENTROPY}}(\theta) = \mathbb{E} \left[ -\pi_{\theta}(a_t | s_t) \log \pi_{\theta}(a_t | s_t) \right]
-    \]
-
-    \item The total loss function combines policy loss, value loss, and entropy:
-    
-    \[
-    L(\theta) = L^{\text{CLIP}}(\theta) - c_1 L^{\text{VF}}(\theta) + c_2 L^{\text{ENTROPY}}(\theta)
-    \]
-    
-    where \( c_1 \) and \( c_2 \) are coefficients.
-    
-    \item The policy parameters are updated via gradient ascent:
-    
-    \[
-    \theta \leftarrow \theta + \alpha \nabla_{\theta} L(\theta)
-    \]
-    
-    where \( \alpha \) is the learning rate.
+    \item Repeat for multiple Epochs.
     
 \end{itemize}
 
 Unlike other algorithms, we used two Neural Networks (NNs): one for the policy and another for the value function. The Policy Network follows the CNN architecture described in Section \ref{sec:CNN}, with its output representing the mean and standard deviation of the action distribution. Within the PPO class, the update function constructs a normal distribution based on these parameters, from which an action is sampled. The action is then clipped to ensure it stays within the boundaries of the continuous action space.
 
 The Value Network, in contrast, uses a simplified version of the CNN, as it does not require extensive feature extraction. Its output is a single scalar representing the estimated state value.
-
 \hspace{1cm}
 \subsubsection{CEM}
 
