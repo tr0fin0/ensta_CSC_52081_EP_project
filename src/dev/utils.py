@@ -42,18 +42,18 @@ def agent_evaluation(agent, environment: gym, seeds: list[int]) -> tuple[list, l
     return scores, actions
 
 
-def get_environment_discrete():
-    env_discrete = gym.make(
+def get_environment(is_continuous: bool = False):
+    environment = gym.make(
         "CarRacing-v3",
         render_mode="rgb_array",
-        continuous=False
+        continuous=is_continuous
     )
-    env_discrete = SkipFrame(env_discrete, skip=4)
-    env_discrete = gym_wrap.GrayscaleObservation(env_discrete)
-    env_discrete = gym_wrap.ResizeObservation(env_discrete, shape=(84, 84))
-    env_discrete = gym_wrap.FrameStackObservation(env_discrete, stack_size=4)
+    environment = SkipFrame(environment, skip=4)
+    environment = gym_wrap.GrayscaleObservation(environment)
+    environment = gym_wrap.ResizeObservation(environment, shape=(84, 84))
+    environment = gym_wrap.FrameStackObservation(environment, stack_size=4)
 
-    return env_discrete
+    return environment
 
 
 def plot_reward(episode_num, reward_list, actions) -> None:
