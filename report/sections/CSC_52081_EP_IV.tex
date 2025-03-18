@@ -3,34 +3,19 @@
 \begin{document}
 \section{Results and Discussion}
 
-\subsection{Planned Experiments}
-To rigorously evaluate reinforcement learning methodologies for high-dimensional continuous control, we design a series of structured experiments that investigate different aspects of agent performance and adaptability. Our experiments encompass the following key components:
+\subsection{CEM}
 
-\subsubsection{Baseline Performance Assessment}
-We begin by assessing the performance of a default agent, utilizing an unmodified algorithm with standard hyperparameter. This establishes a reference point against which subsequent optimizations and modifications will be compared. The baseline agent undergoes training in the CarRacing-v3 environment, where its cumulative reward progression, stability, and convergence rate are monitored.
+Figure \ref{fig:train_plot} shows the evolution of the training rewards over iterations for the CEM algorithm. As expected from the minimization strategy applied in our implementation, the reward value starts at a high level and decreases steadily, eventually stabilizing between 5 and 10. This behavior indicates that the algorithm is correctly minimizing the cost, since our objective function returns the negative reward.
 
-\subsubsection{Impact of Visual Perturbations}
-To evaluate robustness to varying environmental conditions, we systematically introduce color shifts during training and testing. The goal is to measure the degradation in policy effectiveness and adaptation capabilities under perturbed visual inputs.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/CEM_train.png}
+    \caption{Training plot showing the evolution of the reward over iterations.}
+    \label{fig:train_plot}
+\end{figure}
 
-\subsubsection{Action Representation and Control Granularity}
-We experiment with both discrete and continuous action representations to analyze differences in learning efficiency, convergence dynamics, and policy smoothness. Additionally, varying the control resolution (i.e., finer vs. coarser action discretization) helps determine the impact of granularity on training stability and generalization.
+However, the desired outcome was to achieve a much lower (more negative) reward value as training progressed, which would have translated into better performance by the agent when navigating the track. Unfortunately, the final model did not produce the expected results in the environment, as demonstrated by the video reproduction of the car on the track.
 
-\subsubsection{Hyperparameter Optimization}
-To improve learning dynamics, we conduct a hyperparameter sensitivity analysis, varying key parameters such as learning rate, discount factor, batch size, and replay buffer configuration. This study aims to optimize agent performance while ensuring stability across multiple training runs.
+This may be the result of some problems with the model. One possibility is that the reward structure, when negated for minimization, may be inadvertently favoring a strategy that minimizes penalization rather than encouraging forward progress. Additionally, the parameters of the CNN or the action scaling (especially for the steering, gas, and brake outputs) might not be appropriately tuned, causing the policy to output nearly constant or ineffective actions. Overall, these factors combined may result in the agent exploiting a trivial strategy that minimizes the cost, rather than discovering a policy that drives effectively along the track. But, despite this problem, the training plot confirms that the minimization mechanism is operating as designed.
 
-\subsubsection{Final Policy Comparison}
-Upon completing the experimental phase, we conduct a comparative analysis of the trained policies, evaluating their decision-making tendencies, behavioral consistency, and generalization to unseen conditions. This is complemented by qualitative visualizations such as action heatmaps and policy trajectories.
-
-\subsection{Preliminary Experiment with a Default Agent}
-As an initial baseline, we implement a standard reinforcement learning agent using the Stable-Baselines3 PPO algorithm with default hyperparameter. The agent undergoes training in the CarRacing-v3 environment for a fixed number of episodes, providing insight into:
-
-\begin{itemize}
-\item Initial convergence behavior and training stability.
-\item Sample efficiency and learning rate under default conditions.
-\item Performance plateau and limitations of the unoptimized agent.
-\end{itemize}
-
-To further analyze agent behavior, we generate initial learning curves and action heatmaps, highlighting policy inefficiencies and potential areas for improvement. These insights guide subsequent modifications, including fine-tuned hyperparameter, improved feature extraction architectures, and alternative training strategies.
-
-By structuring our experiments in this manner, we establish a systematic framework for iterative enhancements, ultimately leading to a more robust and efficient reinforcement learning agent for complex continuous control tasks.
 \end{document}

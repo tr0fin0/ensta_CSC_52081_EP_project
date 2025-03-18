@@ -13,7 +13,7 @@ This study employs the CarRacing-v3 environment from Gymnasium \cite{gymnasium},
     \item \textbf{Image}: the frames are transformed from an RGB state representation to grayscale, and the resolution is downscaled to 84x84 pixels. These steps facilitate the network computations, making them less complex. Additionally, to allow the network to accurately track the car's dynamics and improve the agent's ability to adjust actions based on the current state, each frame is stacked with the previous three frames. As a result, every state is represented by a sequence of four consecutive grayscale frames at 84x84 resolution (see Figure \ref{fig:grayscale}).
 
     \item \textbf{Input Layer}: 4-channel 84x84 images.
-    
+
     \item \textbf{First Convolutional Layer}: 16 filters, 8x8 kernel, stride 4, ReLU activation. After applying the convolution, the output have dimensions 20x20.
 
     \item \textbf{Second Convolutional Layer}: 32 filters, 4x4 kernel, stride 2, ReLU activation. After applying the convolution, the output have dimensions 9x9.
@@ -47,7 +47,7 @@ A key innovation introduced in the original DQN paper is the concept of experien
 \hspace{1cm}
 
 \subsubsection{DEEP Q-Network (DQN)}
-The model is trained by optimizing a loss function based on the temporal difference error between predicted and target Q-values. 
+The model is trained by optimizing a loss function based on the temporal difference error between predicted and target Q-values.
 
 For the DQN, the target network consists in maintaining two separate networks: the main (or online) network, which is used for learning and selecting actions, and the target network, which is updated less frequently. The target network is a copy of the online network, and its parameters are periodically updated by copying the parameters of the online network to it. This approach helps stabilize the learning process by providing a fixed target for the updates, preventing oscillations and divergence in the Q-value estimates.
 
@@ -55,7 +55,7 @@ Training is conducted on minibatches of state-action-reward-next state sequences
     \begin{equation}
         Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]
     \end{equation}
-    
+
     where $\max_{a'} Q(s', a')$ is the maximum Q-value at the next state $s'$ (greedy selection).
 
 \hspace{1cm}
@@ -88,13 +88,13 @@ The training for the PPO is described as follows:
     \[
     \delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)
     \]
-    
+
     The Generalized Advantage Estimation (GAE) is computed recursively:
-    
+
     \[
     A_t^{GAE} = \delta_t + (\gamma \lambda) A_{t+1}^{GAE}
     \]
-    
+
     where \( \gamma \) is the discount factor and \( \lambda \) is the GAE smoothing parameter.
 
     The estimated return is:
@@ -108,7 +108,7 @@ The training for the PPO is described as follows:
     \[
     r_t(\theta) = \frac{\pi_{\theta}(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}
     \]
-    
+
     where \( \pi_{\theta} \) is the current policy, and \( \pi_{\theta_{\text{old}}} \) is the old policy before the update.
 
     \item Clipped Surrogate Objective, to prevent large policy updates:
@@ -116,7 +116,7 @@ The training for the PPO is described as follows:
     \[
     L^{\text{CLIP}}(\theta) = \mathbb{E} \left[ \min \left( r_t(\theta) A_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) A_t \right) \right]
     \]
-    
+
     where \( \epsilon \) is a small clipping parameter (\( 0.2 \) in our code).
 
     \item Compute Value Function Loss:
@@ -132,21 +132,21 @@ The training for the PPO is described as follows:
     \]
 
     \item The total loss function combines policy loss, value loss, and entropy:
-    
+
     \[
     L(\theta) = L^{\text{CLIP}}(\theta) - c_1 L^{\text{VF}}(\theta) + c_2 L^{\text{ENTROPY}}(\theta)
     \]
-    
+
     where \( c_1 \) and \( c_2 \) are coefficients.
-    
+
     \item The policy parameters are updated via gradient ascent:
-    
+
     \[
     \theta \leftarrow \theta + \alpha \nabla_{\theta} L(\theta)
     \]
-    
+
     where \( \alpha \) is the learning rate.
-    
+
 \end{itemize}
 
 Unlike other algorithms, we used two Neural Networks (NNs): one for the policy and another for the value function. The Policy Network follows the CNN architecture described in Section \ref{sec:CNN}, with its output representing the mean and standard deviation of the action distribution. Within the PPO class, the update function constructs a normal distribution based on these parameters, from which an action is sampled. The action is then clipped to ensure it stays within the boundaries of the continuous action space.
@@ -154,8 +154,29 @@ Unlike other algorithms, we used two Neural Networks (NNs): one for the policy a
 The Value Network, in contrast, uses a simplified version of the CNN, as it does not require extensive feature extraction. Its output is a single scalar representing the estimated state value.
 
 \hspace{1cm}
-\subsubsection{CEM}
+\subsubsection{Cross-Entropy Method (CEM)}
 
+The Cross-Entropy Method (CEM) is a population-based optimization algorithm used to iteratively refine a distribution over the parameter space, converging towards an optimal policy. It operates by maintaining a probability distribution over the policy parameters and updating it based on the performance of sampled candidates.
+
+At each iteration, a set of candidate solutions is sampled from a multivariate normal distribution:
+
+\begin{equation}
+\boldsymbol{x}_i \sim \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\Sigma}) \quad \forall i \in \{1, \dots, m\}
+\end{equation}
+
+where $\boldsymbol{\mu}$ and $\boldsymbol{\Sigma}$ represent the mean vector and covariance matrix, respectively, defining the current search distribution. Each candidate solution $\boldsymbol{x}_i$ is evaluated using the objective function, which corresponds to the negative cumulative reward in reinforcement learning. The best-performing $m_{\text{elite}}$ candidates (elite set) are selected to update the parameters of the search distribution:
+
+\begin{equation}
+\boldsymbol{\mu} \leftarrow \frac{1}{m_{\text{elite}}} \sum_{j=1}^{m_{\text{elite}}} \boldsymbol{x}_j
+\end{equation}
+
+\begin{equation}
+\boldsymbol{\Sigma} \leftarrow \frac{1}{m_{\text{elite}}} \sum_{j=1}^{m_{\text{elite}}} (\boldsymbol{x}_j - \boldsymbol{\mu}) (\boldsymbol{x}_j - \boldsymbol{\mu})^T
+\end{equation}
+
+This process iterates until convergence, refining the distribution towards regions of higher reward. Unlike gradient-based methods, CEM does not require differentiability of the objective function, making it particularly suitable for policy search in high-dimensional and non-differentiable reinforcement learning problems.
+
+As mentioned for PPO, two NNs are also used in this algorithm. The first one processes the high-dimensional visual observations produced by the CarRacing environment. It takes as input the preprocessed frames (in this case, four stacked grayscale images of size \(84 \times 84\)) and extracts spatial features by applying a series of convolutional filters and nonlinear activations. The second one is a policy that the agent can use to interact with the environment, handling the necessary preprocessing of the input observation. Moreover, this policy provides utility methods to extract all network parameters into a single flattened vector and to update the network parameters from such a vector.
 
 \hspace{1cm}
 \subsubsection{SAC}
