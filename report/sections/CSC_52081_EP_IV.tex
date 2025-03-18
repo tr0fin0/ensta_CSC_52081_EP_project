@@ -3,6 +3,42 @@
 \begin{document}
 \section{Results and Discussion}
 
+\subsection{DQN and SARSA Comparison}
+
+The evolution curve of the models can be seen in Figures \ref{fig:DQN_evolution} and \ref{fig:SARSA_evolution}, respectively. The blue curve shows the episodic rewards, while the orange line represents the moving average, providing a clearer view of the overall learning trend.
+
+The DQN was trained over 2300 episodes. The reward curve shows an upward trend, indicating that the DQN is learning and improving its policy over time. The reward stabilizes around 820 ± 171.98 by episode 2364, suggesting that the model has likely converged to a near-optimal policy, and the steady improvement suggests that the learning rate is likely well-tuned. Given that the maximum reward reached in the environment is 926.8, the results are quite satisfactory, but the convergence takes more time to saddle.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/DQN_train_2364.png}
+    \caption{Evolution curve showing the rewards over episodes - DQN for 2300 episodes.}
+    \label{fig:DQN_evolution}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/SARSA_train.png}
+    \caption{Evolution curve showing the rewards over episodes - Deep SARSA for 1000 episodes.}
+    \label{fig:SARSA_evolution}
+\end{figure}
+
+For the SARSA model, 1000 episodes were simulated. The agent starts with low rewards in the early episodes, as expected, while it explores the environment. Rapid improvement occurs within the first 100-200 episodes, showing that the agent is learning a useful policy. After this phase, rewards continue to increase but with fluctuations, which suggest that the learning rate may be moderately high, allowing for quick learning, but eventually stabilizing around 784 ± 126.7.
+
+Overall, this proved to be a good training and the final performance is strong, indicating that the policy has reached a near-optimal state, while also fast and sample-efficient, followed by stable convergence.
+
+In order to compare their performance under the same conditions (same environment), we performed five simulations for over 25 seeds. The graph for comparison can be seen in Figure \ref{fig:SARSA_DQN_comparison}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/aaaaaaaa.png}
+    \caption{Average Reward over environment with seeds ranging from 0 to 24, comparison between DQN and Deep SARSA performances.}
+    \label{fig:SARSA_DQN_comparison}
+\end{figure}
+
+In summary, Deep SARSA prioritizes fast adaptation but requires more time to stabilize, while DQN takes longer to learn but ultimately achieves higher performance and stability.
+
 \subsection{CEM}
 
 Figure \ref{fig:train_plot} shows the evolution of the training rewards over iterations for the CEM algorithm. As expected from the minimization strategy applied in our implementation, the reward value starts at a high level and decreases steadily, eventually stabilizing between 5 and 10. This behavior indicates that the algorithm is correctly minimizing the cost, since our objective function returns the negative reward.
@@ -17,5 +53,10 @@ Figure \ref{fig:train_plot} shows the evolution of the training rewards over ite
 However, the desired outcome was to achieve a much lower (more negative) reward value as training progressed, which would have translated into better performance by the agent when navigating the track. Unfortunately, the final model did not produce the expected results in the environment, as demonstrated by the video reproduction of the car on the track.
 
 This may be the result of some problems with the model. One possibility is that the reward structure, when negated for minimization, may be inadvertently favoring a strategy that minimizes penalization rather than encouraging forward progress. Additionally, the parameters of the CNN or the action scaling (especially for the steering, gas, and brake outputs) might not be appropriately tuned, causing the policy to output nearly constant or ineffective actions. Overall, these factors combined may result in the agent exploiting a trivial strategy that minimizes the cost, rather than discovering a policy that drives effectively along the track. But, despite this problem, the training plot confirms that the minimization mechanism is operating as designed.
+
+\subsection{PPO and SAC}
+
+Over approximatly 100 episodes, we observed a tranding that did not converged to a optimal policy. Figure \ref{fig:}
+
 
 \end{document}

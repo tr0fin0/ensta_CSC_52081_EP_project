@@ -4,6 +4,15 @@
     \section{Conclusions}
         % Summarize the project briefly (one paragraph will do). Main outcome, lessons learned, suggestions of hypothetical future work.
         % Reflect upon, but don't needlessly repeat, material from the conclusion.
+        \subsection{Discrete Action-Space}
+
+        Deep SARSA and DQN are both powerful reinforcement learning algorithms for discrete action-space in the Car Racing environment, but they exhibit different learning dynamics and convergence properties.
+
+        Deep SARSA learns faster in the early stages of training due to its on-policy nature, which allows it to adjust its policy dynamically based on the latest experiences. This results in quicker adaptation and initial reward improvements. However, because it updates its policy with actions influenced by exploration, it tends to be more unstable and takes longer to fully converge.
+
+        On the other hand, DQN follows an off-policy approach, learning from past experiences stored in a replay buffer. This makes training more stable and helps DQN discover a more optimal policy in the long run. However, DQN generally takes more time to reach this optimal policy due to its need for extensive experience replay and value function approximation.
+
+        \subsection{Continuous Action-Space}
 
     % The bibliography (you can use a separate .bib file if you prefer):
     \begin{thebibliography}{4}
