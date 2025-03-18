@@ -174,3 +174,7 @@ cython_debug/
 
 # LaTeX
 *.synctex.gz
+
+aux_files/
+
+.gitignore
