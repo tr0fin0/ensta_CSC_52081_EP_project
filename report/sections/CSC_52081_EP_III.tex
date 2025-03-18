@@ -7,7 +7,7 @@
 \subsection{Environment and Agent Implementation}
 \label{sec:CNN}
 
-This study employs the CarRacing-v3 environment from Gymnasium \cite{gymnasium}, a challenging benchmark characterized by high-dimensional visual observations and multiple action modalities. In order to transform the observation space (a 3x96x96 picture frame) in the action space supported by the environment, we implemented a Convolutional Neural Network (CNN) inspired by \cite{DQN_DDQN} with the following characteristics:
+This study employs the CarRacing-v3 environment from Gymnasium \cite{gymnasium}, a challenging benchmark characterized by high-dimensional visual observations and multiple action modalities. In order to transform the observation space (a 3x96x96 picture frame) in the action space supported by the environment, we implemented a Convolutional Neural Network (CNN) inspired by \cite{DQN_CNN} with the following characteristics:
 
 \begin{itemize}
     \item \textbf{Image}: the frames are transformed from an RGB state representation to grayscale, and the resolution is downscaled to 84x84 pixels. These steps facilitate the network computations, making them less complex. Additionally, to allow the network to accurately track the car's dynamics and improve the agent's ability to adjust actions based on the current state, each frame is stacked with the previous three frames. As a result, every state is represented by a sequence of four consecutive grayscale frames at 84x84 resolution (see Figure \ref{fig:grayscale}).
