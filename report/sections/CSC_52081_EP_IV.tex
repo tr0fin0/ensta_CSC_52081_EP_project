@@ -31,12 +31,12 @@ Overall, this proved to be a good training and the final performance is strong, 
 In order to compare algorithm performance under the same conditions of an environment (which is randomly generated), we fixed a seed variable upon its generation to maintain the main caracteristics.
 We performed five simulations for over 25 seeds. The graph for comparison can be seen in Figure \ref{fig:SARSA_DQN_comparison}.
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.3\textwidth]{figures/aaaaaaaa.png}
-%     \caption{Average Reward over environment with seeds ranging from 0 to 24, comparison between DQN and Deep SARSA performances.}
-%     \label{fig:SARSA_DQN_comparison}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/output_4.png}
+    \caption{Average Reward over environment with seeds ranging from 0 to 24, comparison between DQN and Deep SARSA performances.}
+    \label{fig:SARSA_DQN_comparison}
+\end{figure}
 
 In summary, Deep SARSA prioritizes fast adaptation but requires more time to stabilize, while DQN takes longer to learn but ultimately achieves higher performance and stability.
 
@@ -68,12 +68,12 @@ For both algorithms, over approximatly 1000 episodes, we did not observe a trand
 
 We then evaluated both performances of PPO and SAC under the same conditions (same environment), which can be seen in Figure \ref{fig:PPO_SAC_comparison}.
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.3\textwidth]{figures/aaaaaaaa.png}
-%     \caption{Average Reward over environment, comparison between PPO and SAC algorithms.}
-%     \label{fig:PPO_SAC_comparison}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/output_5.png}
+    \caption{Average Reward over environment, comparison between PPO and SAC algorithms.}
+    \label{fig:PPO_SAC_comparison}
+\end{figure}
 
 Many of the reasons that could explain the poor performance of the algorithms are that continuous action spaces introduce infinitely many possible actions, making exploration harder compared to discrete spaces. If the policy does not explore effectively, it may fail to find optimal actions.
 PPO and SAC are highly sensitive to hyperparameters like learning rate, entropy regularization (SAC), and clipping ratio (PPO). Inappropriate values can lead to either premature convergence to suboptimal policies or unstable training.
