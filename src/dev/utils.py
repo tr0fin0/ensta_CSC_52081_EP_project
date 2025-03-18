@@ -12,21 +12,21 @@ if is_ipython:
     from IPython import display
 
 
-def agent_evaluation_discrete(agent, env_discrete: gym, seeds: list[int]) -> tuple[list, list]:
+def agent_evaluation(agent, environment: gym, seeds: list[int]) -> tuple[list, list]:
     agent.epsilon = 0
 
     scores = []
     actions = []
 
     for episode, seed_id in enumerate(seeds):
-        state, info = env_discrete.reset(seed=seed_id)
+        state, info = environment.reset(seed=seed_id)
         score = 0
         action = 0
 
         updating = True
         while updating:
             action = agent.get_action(state)
-            state, reward, terminated, truncated, info = env_discrete.step(action)
+            state, reward, terminated, truncated, info = environment.step(action)
 
             updating = not (terminated or truncated)
             score += reward
@@ -37,7 +37,7 @@ def agent_evaluation_discrete(agent, env_discrete: gym, seeds: list[int]) -> tup
 
         print(f"Episode:{episode}, Score:{score:.2f}, actions: {action}")
 
-    env_discrete.close()
+    environment.close()
 
     return scores, actions
 
