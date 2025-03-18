@@ -14,6 +14,14 @@
 
         \subsection{Continuous Action-Space}
 
+        Reinforcement learning in continuous action spaces presents unique challenges, as evidenced by the performance of CEM, PPO, and SAC in the Car Racing environment. Despite being widely used for continuous control tasks, all three methods struggled to produce a final model with satisfactory performance.
+
+        Continuous action-space algorithms are highly sensitive to hyperparameter tuning, unlike discrete methods with established heuristics. Learning rates, exploration strategies, policy updates, and reward scaling require careful adjustment to avoid suboptimal policies or unstable training.
+
+        Additionally, each method introduces its own complexities. CEM relies on sampling efficiency and elite selection, which can be affected by high-dimensional action spaces. PPO, with its clipped objective function, requires precise balancing of update steps to avoid excessive policy shifts. SAC, designed for entropy-regularized learning, depends on an appropriate temperature parameter to balance exploration and exploitation.
+
+        These results reinforce the need for extensive experimentation and fine-tuning when applying reinforcement learning to continuous control tasks. Further improvements may require alternative reward shaping techniques, curriculum learning, or hybrid approaches to improve stability and convergence.
+
     % The bibliography (you can use a separate .bib file if you prefer):
     \begin{thebibliography}{4}
         \bibitem{gymnasium}
@@ -28,10 +36,10 @@
 
         \bibitem{Popular_RL}
             AI Mind. Popular Reinforcement Learning algorithms and their implementation, 2023 \url{https://pub.aimind.so/popular-reinforcement-learning-algorithms-and-their-implementation-7adf0e092464}
-        
+
         \bibitem{Deep_SARSA}
             van Seijen et al. Deep SARSA: A Novel Approach to Deep Reinforcement Learning, 2014.
-        
+
         \bibitem{PPO}
             Schulman et al. Proximal Policy Optimization Algorithms, 2017.
 
@@ -40,7 +48,7 @@
 
          \bibitem{DQN_CNN}
             GitHub - wiitt/DQN-Car-Racing: Implementation of DQN and DDQN algorithms for Playing Car Racing Game \url{https://github.com/wiitt/DQN-Car-Racing} GitHub. 2024.
-         
+
 
         \end{thebibliography}
 \end{document}
