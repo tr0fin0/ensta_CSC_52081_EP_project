@@ -30,12 +30,12 @@ Overall, this proved to be a good training and the final performance is strong, 
 
 In order to compare their performance under the same conditions (same environment), we performed five simulations for over 25 seeds. The graph for comparison can be seen in Figure \ref{fig:SARSA_DQN_comparison}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.3\textwidth]{figures/aaaaaaaa.png}
-    \caption{Average Reward over environment with seeds ranging from 0 to 24, comparison between DQN and Deep SARSA performances.}
-    \label{fig:SARSA_DQN_comparison}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.3\textwidth]{figures/aaaaaaaa.png}
+%     \caption{Average Reward over environment with seeds ranging from 0 to 24, comparison between DQN and Deep SARSA performances.}
+%     \label{fig:SARSA_DQN_comparison}
+% \end{figure}
 
 In summary, Deep SARSA prioritizes fast adaptation but requires more time to stabilize, while DQN takes longer to learn but ultimately achieves higher performance and stability.
 
@@ -56,7 +56,29 @@ This may be the result of some problems with the model. One possibility is that 
 
 \subsection{PPO and SAC}
 
-Over approximatly 100 episodes, we observed a tranding that did not converged to a optimal policy. Figure \ref{fig:}
+For both algorithms, over approximatly 1000 episodes, we did not observe a tranding that converged to an optimal policy. Figure \ref{fig:PPO_train} shows the poor performance of the model, that can be explained by higher complexity of the continuous action-space possibilities.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/reward_per_episode_PPO.png}
+    \caption{Evolution curve of the rewards per episode for the PPO algorithm.}
+    \label{fig:PPO_train}
+\end{figure}
+
+We then evaluated both performances of PPO and SAC under the same conditions (same environment), which can be seen in Figure \ref{fig:PPO_SAC_comparison}.
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.3\textwidth]{figures/aaaaaaaa.png}
+%     \caption{Average Reward over environment, comparison between PPO and SAC algorithms.}
+%     \label{fig:PPO_SAC_comparison}
+% \end{figure}
+
+Many of the reasons that coul explain the poor performance of the algorithms are that continuous action spaces introduce infinitely many possible actions, making exploration harder compared to discrete spaces. If the policy does not explore effectively, it may fail to find optimal actions.
+PPO and SAC are highly sensitive to hyperparameters like learning rate, entropy regularization (SAC), and clipping ratio (PPO). Inappropriate values can lead to either premature convergence to suboptimal policies or unstable training.
+Additionally, the neural networks may struggle to approximate the optimal policy in complex continuous spaces, especially if architecture, activation functions, or regularization are not well chose, and there are many possibilities.
+
+Overall, we don't have enough evidence to claim that the algorithm completly failed, because analysing the videos after 1000 episodes, it does seem to make reasonable choices, but is not fast enough. Maybe with more training it would start to perform better, but we did not have the time to train the algorithm (usually it requires more than 10 hours).
 
 
 \end{document}
