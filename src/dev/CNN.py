@@ -31,7 +31,6 @@ class PolicyNetwork(nn.Module):
 
         mu[:, 0] = torch.tanh(mu[:, 0])  # Steering: [-1, 1]
         mu[:, 1:] = torch.sigmoid(mu[:, 1:])  # Gas and brake: [0, 1]
-        std = torch.sigmoid(std)
         
         return mu, std
 
@@ -50,13 +49,14 @@ class ValueNetwork(nn.Module):
         if height != 84 or width != 84:
             raise ValueError(f"Invalid input ({height, width})-shape. Expected: (84, 84)")
 
-        # Single convolutional layer
-        self.conv = nn.Conv2d(channel_n, 16, kernel_size=5, stride=2, padding=2)  # Keeps spatial structure
-        self.fc = nn.Linear(16 * 42 * 42, output_dim)  # Fully connected layer to predict value
+        self.conv1 = nn.Conv2d(channel_n, 16, kernel_size=8, stride=4)
+        self.conv2 = nn.Conv2d(16, 32, kernel_size=4, stride=2)
+        self.fc = nn.Linear(2592, 256)
+        self.value_head = nn.Linear(256, output_dim)  # Predicts single value
 
     def forward(self, x):
-        x = F.relu(self.conv(x))  # Apply convolution and activation
-        x = x.view(x.size(0), -1)  # Flatten to feed into FC layer
-        value = self.fc(x)  # Predict state value
-
-        return value
+        x = F.relu(self.conv1(x))
+        x = F.relu(self.conv2(x))
+        x = x.view(x.size(0), -1)
+        x = F.relu(self.fc(x))
+        return self.value_head(x)  # Return scalar value
