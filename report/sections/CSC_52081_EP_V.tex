@@ -4,6 +4,21 @@
     \section{Conclusions}
         % Summarize the project briefly (one paragraph will do). Main outcome, lessons learned, suggestions of hypothetical future work.
         % Reflect upon, but don't needlessly repeat, material from the conclusion.
+        \subsection{Discrete Action-Space}
+
+        Deep SARSA and DQN are both powerful reinforcement learning algorithms for discrete action-space in the Car Racing environment, but they exhibit different learning dynamics and convergence properties.
+
+        Deep SARSA learns faster in the early stages of training due to its on-policy nature, which allows it to adjust its policy dynamically based on the latest experiences. This results in quicker adaptation and initial reward improvements. However, because it updates its policy with actions influenced by exploration, it tends to be more unstable and takes longer to fully converge.
+
+        On the other hand, DQN follows an off-policy approach, learning from past experiences stored in a replay buffer. This makes training more stable and helps DQN discover a more optimal policy in the long run. However, DQN generally takes more time to reach this optimal policy due to its need for extensive experience replay and value function approximation.
+
+        \subsection{Continuous Action-Space}
+
+        Reinforcement learning in continuous action spaces presents unique challenges, as evidenced by the performance of CEM, PPO, and SAC in the Car Racing environment. Despite being widely used for continuous control tasks, all three methods struggled to produce a final model with satisfactory performance.
+
+        Continuous action-space algorithms are highly sensitive to hyperparameter tuning, unlike discrete methods with established heuristics. Learning rates, exploration strategies, policy updates, and reward scaling require careful adjustment to avoid suboptimal policies or unstable training.
+
+        These results reinforce the need for extensive experimentation and fine-tuning when applying reinforcement learning to continuous control tasks.
 
     % The bibliography (you can use a separate .bib file if you prefer):
     \begin{thebibliography}{4}
@@ -19,15 +34,19 @@
 
         \bibitem{Popular_RL}
             AI Mind. Popular Reinforcement Learning algorithms and their implementation, 2023 \url{https://pub.aimind.so/popular-reinforcement-learning-algorithms-and-their-implementation-7adf0e092464}
-        
+
         \bibitem{Deep_SARSA}
             van Seijen et al. Deep SARSA: A Novel Approach to Deep Reinforcement Learning, 2014.
-        
+
         \bibitem{PPO}
             Schulman et al. Proximal Policy Optimization Algorithms, 2017.
 
         \bibitem{SAC}
             Haarnoja et al. Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor, 2018.
+
+         \bibitem{DQN_CNN}
+            GitHub - wiitt/DQN-Car-Racing: Implementation of DQN and DDQN algorithms for Playing Car Racing Game \url{https://github.com/wiitt/DQN-Car-Racing} GitHub. 2024.
+
 
         \end{thebibliography}
 \end{document}
