@@ -26,6 +26,8 @@ def agent_evaluation(agent, environment: gym, seeds: list[int]) -> tuple[list, l
         updating = True
         while updating:
             action = agent.get_action(state)
+            if np.isnan(action).any():
+                action = environment.action_space.sample()
             state, reward, terminated, truncated, info = environment.step(action)
 
             updating = not (terminated or truncated)

@@ -159,7 +159,7 @@ class AgentSAC:
         self.auto_alpha_tuning = auto_alpha_tuning
         self.target_update_interval = target_update_interval
         self.num_channels, self.height, self.width = state_shape
-        self.num_actions = action_shape[0]
+        self.num_actions = action_shape.shape[0]
         self.hidden_size = hidden_size
         self.batch_size = batch_size
         self.model_dir = model_dir
