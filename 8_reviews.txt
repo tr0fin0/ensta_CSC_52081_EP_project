@@ -1,0 +1,121 @@
+---- Review from 8-KiQB.txt ----
+# The paper is about reinforcement learning or bandits or otherwise obviously connected to the material of the course
+Yes
+
+# The paper contains minimal content (as specified as the minimum requirements; i.e., sufficient for you to actually write a review of)
+Yes
+
+# The paper provides a link to code that you can use and/or understand within a few minutes using your knowledge from the course
+Yes
+
+# The paper appears original (all material borrowed from elsewhere is unambiguously acknowledged, including references). Should usually be Yes here, unless clear evidence of plagiarism - but contact a teacher if you have doubts.
+Yes
+
+---
+
+This report presents an investigation into reinforcement learning applied to the CarRacing-v3 environment from Gymnasium. The authors aim to compare a range of RL methods across both discrete and continuous action spaces. For discrete control, the report focuses on DQN and SARSA (Deep SARSA), while for continuous control, it proposes the use of CEM, SAES, PPO, and SAC. The work addresses the challenge of processing high-dimensional 96×96 RGB images by employing a CNN-based feature extractor. The methodology is clearly delineated, with the report outlining experimental setups that include evaluation via learning curves and action heatmaps. The accompanying code implements these algorithms using both PyTorch (for DQN and Deep SARSA) and TensorFlow (for PPO and SAC), and it demonstrates a structured approach to training and evaluation. Although final empirical results are pending, the framework provided meets the minimum requirements for the initial submission.
+
+The report is comprehensive in its description of the environment and the challenges it presents, particularly in handling dual action spaces and high-dimensional inputs. The implemented code is well-organized and modular, with distinct sections for each RL algorithm. The DQN and Deep SARSA implementations leverage a CNN-based feature extractor to reduce dimensionality, as explained above. The inclusion of evolutionary strategies (CEM and SAES) alongside policy-gradient methods (PPO and SAC) provides a broad perspective on different optimization techniques in RL, aligning well with the course content and the different methods seen in class. The aim of the project is to compare the performance of all these methods.
+
+The evaluation framework, which includes functions to plot learning curves and action heatmaps, is a strong aspect of the work. These visualizations are crucial for understanding learning stability and the distribution of actions over time. However, incorporating visuals and images (such as learning curves/action heatmaps or others) directly into the report would enhance the presentation and facilitate a better understanding of the experimental outcomes.
+
+A minor point of concern is the clarity regarding the baseline agent. The report indicates that a baseline will be established (or is already implemented), yet the code shows implementations for both DQN, Deep SARSA, along with additional algorithms. Explicitly clarifying which method serves as the primary baseline, and whether comparisons will be made against a rule-based or heuristic agent, would enhance the comparative analysis. Moreover, while the hyperparameter settings are present in the code, further commentary on their selection and potential impact on performance would be useful for contextualizing the results.
+
+The report is written in clear, professional language appropriate for an academic submission. The structure follows the provided template, with complete sections on Introduction, Background, Methodology/Approach, and preliminary Results/Discussion, as demanded. The mathematical formulations, particularly those describing the differences between on-policy (SARSA) and off-policy (DQN) methods, are concise and accurate. Consistency in formatting and explicit statements regarding which components are currently implemented versus planned for future work would further improve the document’s clarity.
+
+Overall, this initial submission lays a robust foundation for a comprehensive comparative study of RL methods in a complex, high-dimensional control task. With further refinement in visuals incorporation and clarification of baseline configurations/work timeline, the final report is expected to yield valuable insights into effective RL strategies.
+
+
+---- Review from 8-MehG.txt ----
+# The paper is about reinforcement learning or bandits or otherwise obviously connected to the material of the course
+Yes
+
+# The paper contains minimal content (as specified as the minimum requirements; i.e., sufficient for you to actually write a review of)
+Yes
+
+# The paper provides a link to code that you can use and/or understand within a few minutes using your knowledge from the course
+No : the paper gives a link but i was not able to get an environment capable of running the code either on my local machine or on google colab. the package 'box2d-py' seems to be a problem.
+
+# The paper appears original (all material borrowed from elsewhere is unambiguously acknowledged, including references). Should usually be Yes here, unless clear evidence of plagiarism - but contact a teacher if you have doubts.
+Yes
+
+---
+
+[INTRO]
+This paper compares different RL algorithms (DQN, SARSA, CEM, SA-ES, PPO, SAC) using the CarRacing-v3 environment from Gymnasium, which has both discrete and continuous actions and high-dimensional inputs (image). The authors focus on evaluating visual complexity, action space designs, and hyperparameter effects.
+The report clearly outlines the experimental plan.
+
+[MAIN COMMENTS]
+If think it would be helpful to clearly define how you measure stability and robustness, for example by adding explicit metrics or specific tests (like visual noise). Also, you might consider comparing computational costs or resource usage (CPU/GPU) to show advantages across algorithms.
+
+But the main issue in my opinion is the absence of actual results or concrete analyses.
+Although you frequently mention comparisons and experiments, no results where clearly shown or summarized. 
+For instance, you discuss stability, convergence, and robustness, but no actual data or graphs are provided. The paper mainly describes plans and methods rather than showing real progress.
+It feels like a long description of what could be done but with no actual outcomes presented.
+I strongly recommend providing preliminary results, even if incomplete, to demonstrate show what you've dicovered ! On each category just add a line or 2 to saw what you've found like in "Baseline Performance Assessment" tell me what is this baseline ? can it drive ? what reward ? and on each methods if it performs better and/or in which way.
+You've clearly made a huge effort in coding and setting up the experiments, but unfortunately, the current report doesn't fully highlight this work. Right now, it's difficult to understand the purpose of testing the different algorithms.
+
+[CLARITY]
+Overall, the presentation is very clear and well-structured but lack a bit of visual support. I would suggest adding graphs or tables.
+
+[CONCLUSION]
+Overall, the project looks promising and shows a clear effort, especially in the experimental setup and coding. However, right now the value of your work isn't fully clear due to the lack of presented results. By including preliminary findings and a few visual comparisons, your paper would immediately become clearer, more interesting, and better showcase the purpose behind testing these specific algorithms.
+You're on the right track! 
+
+
+---- Review from 8-Ssdf.txt ----
+# The paper is about reinforcement learning or bandits or otherwise obviously connected to the material of the course
+Yes
+
+# The paper contains minimal content (as specified as the minimum requirements; i.e., sufficient for you to actually write a review of)
+Yes
+
+# The paper provides a link to code that you can use and/or understand within a few minutes using your knowledge from the course
+Yes
+
+# The paper appears original (all material borrowed from elsewhere is unambiguously acknowledged, including references). Should usually be Yes here, unless clear evidence of plagiarism - but contact a teacher if you have doubts.
+Yes
+
+---
+In this paper, the authors are studying the CarRacing-v3 environment from Gymnasium, in both the continuous action-space case and the discrete one. They implemented multiple agents in order to compare different algorithms (DQN, SARSA, CEM, SAES, PPO, and SAC). Their contributions are mainly about analysing the different algorithms's performance and what influence their hyperparameters have on the convergence and stability of the training.
+I don't have much to say about this report, a little because there is no numerical results yet (which was to be expected), and mostly because I think it is really thorough about the methods used. I will then make suggestions on what to do next, even if I think what is presented in the paper is already substancial. 
+
+Maybe I would say that they spread themselves too thin trying to optimize too much different algorithms rather than focusing on a few ones, and that maybe they should finish their paper by focusing more on the algorithms that exhibited the best performances or the most interesting behaviors on the early phases of testing. That way, they could focus more on how to make the learning as smooth as possible, for example by tweaking the environment in order to gradually increase the track difficulty (I actually saw a git repo of someone doing that for the v1 version of this environment, hence this idea).
+
+One of the first things that came to my mind, when reading the report, is to question how well the knowledge of a discrete-trained agent would transfer to the continuous configuration (and vice-versa). To the point where I felt like this idea was already considered by the author, and I find it unclear whether or not it is suggested in the report.
+I believe it would be possible to design a hybrid agent that could reuse the same neural network for both configuration. By changing only the head of the neural network, it should be able to output either a distribution over the discrete action space, or a real value that lies in the continuous action space. With a few changes, it should work with most of the algorithms they used, but I think the most suited ones are actually the ones using the Actor-Critic method, namely the PPO and the SAC. I think these algorithms should be easy to adapt to each configuration in the right manner, and they would also allow for more stability in the training.
+By doing this I intended to question the generality of the environment's representation learned while training, by seeing how well it could transfer to the other action space. To do that, while training an agent with one action space, one could also evaluate its performance with the other. Its performance may then rise anyway, indicating that the knowledge from the environment in one configuration can indeed be transferred to the other configuration. On the other hand, if the performance doesn't go up, it could be caused by multiple reasons stemming from either the environment or the agent (or both), in which case it could be interesting to dig deeper into it and try to understand why the learnings do not transfer.
+A more complete idea would be to see how well the training goes when switching between the two action spaces during the training, hence the need for a stable learning algorithm (of course this could be tested on every algorithm, where possible, but it may be easier to have results with agents known for their stability). One could switch back and forth every N episodes, and then compare the performance of this agent to the ones that have been trained on only one action space, to see if they are able to perform better or worse (and by how much). Maybe switching back and forth is too much, and then maybe another "switching scheme" would be more insightful : for example, we can imagine pretraining an agent on one configuration, before fine-tuning it on the other.
+
+To conclude, while this report lacks the numerical results of a final version, it shows a clear outline of what questions the authors want to answer and how they plan to do it. By making sure they present their results nicely, I think they should be able to produce a clear and comprehensive report of their work.
+
+
+---- Review from 8-ZnEJ.txt ----
+﻿# The paper is about reinforcement learning or bandits or otherwise obviously connected to the material of the course
+Yes
+
+# The paper contains minimal content (as specified as the minimum requirements; i.e., sufficient for you to actually write a review of)
+Yes
+
+# The paper provides a link to code that you can use and/or understand within a few minutes using your knowledge from the course
+Yes
+# The paper appears original (all material borrowed from elsewhere is unambiguously acknowledged, including references). Should usually be Yes here, unless clear evidence of plagiarism - but contact a teacher if you have doubts.
+Yes
+
+---
+[INTRO]
+The report evaluates reinforcement learning algorithms in the CarRacing-v3 environment using both discrete (DQN, SARSA/Deep SARSA) and continuous (CEM, SA-ES, PPO, SAC) action spaces. The authors propose a custom CNN-based feature extractor to handle the observation space consisting of high-dimensional RGB images. For experimental setup, the authors drafted a comprehensive plan, considering various factors that could impact performance like visual perturbation and a detailed list of metrics. The authors also propose visualization analyses like learning curves and action heatmaps.
+[MAIN COMMENTS]
+Summary of strengths: This work is both on-topic and well-motivated. The authors provide sufficient grounding in the choice of RL algorithms by clearly capturing the differences between discrete and continuous action spaces, as well as on-policy versus off-policy methods. The work also shows a certain level of novelty by proposing a CNN for visual feature extraction. Additionally, the experimental design considers both the robustness of visual perception and the granularity of control, which is sound and interesting.
+Here are some suggestions:
+In Background Section B, which covers policy-gradient methods, it might be beneficial to include additional details on how to enhance stability in policy optimization—such as the clipped surrogate objective in PPO, which helps prevent excessively large policy updates.
+It would be helpful to provide more details on the CNN feature extractor, including its architectural design, whether it requires training, how it integrates into the overall learning framework, and whether using a pre-trained neural network like ResNet might be advantageous. Additionally, since the Introduction mentions reducing dimensionality while preserving essential spatial features, discussing which features are critical for the policy model's decision making would be beneficial.
+Additionally, it might be interesting to investigate whether combining evolutionary methods like CEM with function approximation (e.g., a smaller neural network architecture) could converge more reliably to high-quality driving strategies, given that CarRacing-v3 is known to be quite challenging for purely random-search-based methods.
+Since it is mentioned in the IV.A (4) section that replay buffer configuration will be analyzed along with hyper-parameter tuning, the authors could include more details about buffer strategies. More advanced strategies like prioritized replay may also be considered to see whether meaningful performance gains can be achieved.
+[CLARITY/PRESENTATION]
+Firstly, regarding the presentation structure, it might be beneficial to include details such as the algorithm procedures and optimization objective formulas in the methodology section. Additionally, adding a section that formalizes the environment and the problem the report aims to solve could improve clarity. When presenting the algorithms, reusing consistent symbols in the formulas will help maintain coherence.
+Another suggestion is to include simple figures that illustrate the learning framework or pipeline. This is especially valuable when integrating extra modules like CNN into RL frameworks, as visual aids can significantly enhance reader understanding.
+[CONCLUDE]
+This work is both sound and interesting, and enlightening insights can be expected following the release of experimental results and analysis.
+
+
